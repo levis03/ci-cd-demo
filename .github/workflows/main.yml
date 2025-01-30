@@ -1,30 +1,13 @@
-
-<<<<<<< HEAD
-=======
-on:
-  push:
-    branches:
-      - main
-
+name: ci-cd-demo
+run-name: ${{ github.actor }} is learning GitHub Actions
+on: [push]
 jobs:
-  build:
-    runs-on: ubuntu-latest  # GitHub Actions uses Ubuntu, but it's very close to Debian
-
+  check-bats-version:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          python-version: '3.9'
-
-      - name: Install system dependencies (Debian-based)
-        run: sudo apt-get update && sudo apt-get install -y some-debian-package
-
-      - name: Install Python dependencies
-        run: pip install --upgrade pip
-
-      - name: Run script
-        run: python hello.py
->>>>>>> refs/remotes/origin/main
+          node-version: '20'
+      - run: npm install -g bats
+      - run: bats -v
