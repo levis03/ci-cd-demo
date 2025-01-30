@@ -1,13 +1,22 @@
-name: ci-cd-demo
-run-name: ${{ github.actor }} is learning GitHub Actions
+name: Simple Python CI
+
 on: [push]
+
 jobs:
-  check-bats-version:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          node-version: '20'
-      - run: npm install -g bats
-      - run: bats -v
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install --upgrade pip
+
+      - name: Run script
+        run: python hello.py
