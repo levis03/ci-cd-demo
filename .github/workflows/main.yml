@@ -1,20 +1,25 @@
 name: Simple Python CI
 
 on: [push]
-build:
-  runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+jobs:
+  build:
+    runs-on: ubuntu-latest  # GitHub Actions uses Ubuntu, but it's very close to Debian
 
-      -name: Set up Python
-      uses: actions/setup/setup-python@v4
-      with:
-        python-version: '3.9'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      -name: Install dependencies
-      run: pip install --upgrade pip
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
 
-      -name: Run script
-      run: python hello.py
+      - name: Install system dependencies (Debian-based)
+        run: sudo apt-get update && sudo apt-get install -y some-debian-package
+
+      - name: Install Python dependencies
+        run: pip install --upgrade pip
+
+      - name: Run script
+        run: python hello.py
